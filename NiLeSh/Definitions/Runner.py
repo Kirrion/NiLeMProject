@@ -74,143 +74,16 @@ def read_line(mode, line, args):
                 if os.path.isfile("NiLeM/Main.html"):
                     path = "NiLeM/" + args[2].capitalize() + "/" + args[2].capitalize()
                 else:
-                    path = args[2].capitalize()
+                    Errors.nilem_not_found_error(line, args[5])
+                    args[0] = False
+                    return args
                 if args[3] == "english":
                     path += ".html"
-                    name = args[2].capitalize()
-                elif args[3] == "czech":
-                    path += "-czech.html"
-                    if args[2] == "math":
-                        name = "Matematika"
-                    elif args[2] == "physics":
-                        name = "Fyzika"
-                    elif args[2] == "chemistry":
-                        name = "Chemie"
-                    elif args[2] == "biology":
-                        name = "Biologie"
-                    elif args[2] == "geography":
-                        name = "Zeměpis"
-                    elif args[2] == "history":
-                        name = "Dějepis"
-                    elif args[2] == "english":
-                        name = "Angličtina"
-                    elif args[2] == "german":
-                        name = "Němčina"
-                    elif args[2] == "czech":
-                        name = "Čeština"
-                    elif args[2] == "russian":
-                        name = "Ruština"
-                    elif args[2] == "french":
-                        name = "Francouzština"
-                    elif args[2] == "spanish":
-                        name = "Španělština"
-                elif args[3] == "russian":
-                    path += "-russian.html"
-                    if args[2] == "math":
-                        name = "Математика"
-                    elif args[2] == "physics":
-                        name = "Физика"
-                    elif args[2] == "chemistry":
-                        name = "Химия"
-                    elif args[2] == "biology":
-                        name = "Биология"
-                    elif args[2] == "geography":
-                        name = "География"
-                    elif args[2] == "history":
-                        name = "История"
-                    elif args[2] == "english":
-                        name = "Английский"
-                    elif args[2] == "german":
-                        name = "Немецкий"
-                    elif args[2] == "czech":
-                        name = "Чешский"
-                    elif args[2] == "russian":
-                        name = "Русский"
-                    elif args[2] == "french":
-                        name = "Французский"
-                    elif args[2] == "spanish":
-                        name = "Испанский"
-                elif args[3] == "german":
-                    path += "-german.html"
-                    if args[2] == "math":
-                        name = "Mathe"
-                    elif args[2] == "physics":
-                        name = "Physik"
-                    elif args[2] == "chemistry":
-                        name = "Chemie"
-                    elif args[2] == "biology":
-                        name = "Biologie"
-                    elif args[2] == "geography":
-                        name = "Geografie"
-                    elif args[2] == "history":
-                        name = "Geschichte"
-                    elif args[2] == "english":
-                        name = "Englisch"
-                    elif args[2] == "german":
-                        name = "Deutsch"
-                    elif args[2] == "czech":
-                        name = "Tschechisch"
-                    elif args[2] == "russian":
-                        name = "Russisch"
-                    elif args[2] == "french":
-                        name = "Französisch"
-                    elif args[2] == "spanish":
-                        name = "Spanisch"
-                elif args[3] == "french":
-                    path += "-french.html"
-                    if args[2] == "math":
-                        name = "Mathématique"
-                    elif args[2] == "physics":
-                        name = "Physique"
-                    elif args[2] == "chemistry":
-                        name = "Chimie"
-                    elif args[2] == "biology":
-                        name = "Biologie"
-                    elif args[2] == "geography":
-                        name = "Géographie"
-                    elif args[2] == "history":
-                        name = "Historique"
-                    elif args[2] == "english":
-                        name = "Anglais"
-                    elif args[2] == "german":
-                        name = "Allemand"
-                    elif args[2] == "czech":
-                        name = "Tchèque"
-                    elif args[2] == "russian":
-                        name = "Russe"
-                    elif args[2] == "french":
-                        name = "Français"
-                    elif args[2] == "spanish":
-                        name = "Espagnol"
-                elif args[3] == "spanish":
-                    path += "-spanish.html"
-                    if args[2] == "math":
-                        name = "Matemáticas"
-                    elif args[2] == "physics":
-                        name = "Física"
-                    elif args[2] == "chemistry":
-                        name = "Química"
-                    elif args[2] == "biology":
-                        name = "Biología"
-                    elif args[2] == "geography":
-                        name = "Geografía"
-                    elif args[2] == "history":
-                        name = "Historial"
-                    elif args[2] == "english":
-                        name = "Inglés"
-                    elif args[2] == "german":
-                        name = "Alemán"
-                    elif args[2] == "czech":
-                        name = "Checo"
-                    elif args[2] == "russian":
-                        name = "Ruso"
-                    elif args[2] == "french":
-                        name = "Francés"
-                    elif args[2] == "spanish":
-                        name = "Español"
+                else:
+                    path += "-" + args[3] + ".html"
                 args[4] = path
                 try:
-                    Printing.print_header(open(args[4], "w"))
+                    Printing.print_header(open(args[4], "w"), 1)
                 except FileNotFoundError:
                     Errors.directory_does_not_exist_error(line, args[5], args[4])
                     args[0] = False
@@ -222,15 +95,17 @@ def read_line(mode, line, args):
                 path = "NiLeM/" + args[2].capitalize() + "/" + args[3].capitalize() + "/" + words[0] + ".html"
                 args[4] = path
             else:
-                args[4] = words[0] + ".html"
-            try:
-                Printing.print_header(open(args[4], "w"))
-            except FileNotFoundError:
-                Errors.directory_does_not_exist_error(line, args[5], args[4])
+                Errors.nilem_not_found_error(line, args[5])
                 args[0] = False
                 return args
             path = words[0].split("/")
             args[8] = len(path)
+            try:
+                Printing.print_header(open(args[4], "w"), args[8] + 1)
+            except FileNotFoundError:
+                Errors.directory_does_not_exist_error(line, args[5], args[4])
+                args[0] = False
+                return args
             Printing.print_start_of_body(open(args[4], "a"), path[len(path) - 1], args[3], args[2], args[8], args[9])
             Printing.create_storing_files(args[4], args[3])
         else:
@@ -249,7 +124,7 @@ def read_line(mode, line, args):
                 search_for_files(args[4], args[3])
                 Printing.print_end_of_body(open(args[4], "a"))
             elif args[9] == "test" and mode == "execute":
-                Printing.print_start_of_script(open(args[4], "a"))
+                Printing.print_start_of_script(open(args[4], "a"), args[8] + 1, args[3])
                 Printing.add_closings_to_storing_files(args[4], args[3])
                 Printing.print_from_storing_files_to_the_main_one(args[4])
                 Printing.print_end_of_script(open(args[4], "a"))
