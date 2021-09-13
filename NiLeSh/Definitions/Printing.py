@@ -33,7 +33,8 @@ def print_start_of_body(file, name, language, subject, length_of_path, case):
         )
     if case == "menu":
         file.write(
-            "        <p>" + Translations.to_main(language) + "</p>\n"
+            "        <p><a href=\"../Main" + Translations.file_language(language) +
+            ".html\">" + Translations.to_main(language) + "</a></p>\n"
         )
     else:
         file.write(
@@ -47,11 +48,13 @@ def print_start_of_body(file, name, language, subject, length_of_path, case):
             "        </p>\n"
             "        <p id=\"c\">" + Translations.no_checked_answer(language) + "</p>\n"
         )
-        string = "        <p><a href=\""
+        file.write("        <p><a href=\"")
         for i in range(length_of_path):
-            string += "../"
-        string += Translations.on_subject_menu(subject, language)
-        file.write(string)
+            file.write("../")
+        file.write(
+            subject.capitalize() + Translations.file_language(language) + ".html\">" +
+            Translations.on_subject_menu(subject, language) + "</a></p>\n"
+        )
 
 
 def print_start_of_script(file, length_of_path, language):
@@ -126,6 +129,7 @@ def add_closings_to_storing_files(file_name, language):
 
 
 def store_enter(file_name, question, answer, question_number, language):
+    texts = question.split("\\n")
     file = open(file_name + ".change", "a")
     if question_number == 0:
         file.write(
@@ -138,7 +142,12 @@ def store_enter(file_name, question, answer, question_number, language):
     file.write(
         "                {\n"
         "                    PrintLine(\"" + Translations.enter_answer(language) + "\");\n"
-        "                    PrintLine(\"" + question + "\");\n"
+    )
+    for text in texts:
+        file.write(
+            "                    PrintLine(\"" + text + "\");\n"
+        )
+    file.write(
         "                    CreateInputbox();\n"
         "                }\n"
     )
@@ -161,6 +170,7 @@ def store_enter(file_name, question, answer, question_number, language):
 
 
 def store_radio(file_name, question, answers, correct_answer, question_number, language):
+    texts = question.split("\\n")
     answers = answers.split("|")
     file = open(file_name + ".change", "a")
     if question_number == 0:
@@ -174,7 +184,12 @@ def store_radio(file_name, question, answers, correct_answer, question_number, l
     file.write(
         "                {\n"
         "                    PrintLine(\"" + Translations.choose_answer(language) + "\");\n"
-        "                    PrintLine(\"" + question + "\");\n"
+    )
+    for text in texts:
+        file.write(
+            "                    PrintLine(\"" + text + "\");\n"
+        )
+    file.write(
         "                    CreateInputradio(" + str(answers) + ");\n"
         "                }\n"
     )
